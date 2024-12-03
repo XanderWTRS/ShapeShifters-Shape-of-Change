@@ -12,6 +12,7 @@ public class Player
     private float width;
     private float height;
     private float speed;
+    private ShapeType currentShape;
 
     public Player(float x, float y, float width, float height)
     {
@@ -19,13 +20,38 @@ public class Player
         this.width = width;
         this.height = height;
         this.speed = 200;
+        this.currentShape = ShapeType.SQUARE;
     }
     public void render(ShapeRenderer shapeRenderer)
     {
-        shapeRenderer.rect(position.x, position.y, width, height);
+        switch(currentShape)
+        {
+            case SQUARE:
+                shapeRenderer.setColor(1,0,0,1);
+                shapeRenderer.rect(position.x, position.y, width,height);
+                break;
+            case CIRCLE:
+                shapeRenderer.setColor(0, 1, 0, 1);
+                shapeRenderer.circle(position.x + width / 2, position.y + height / 2, width / 2);
+                break;
+            case TRIANGLE:
+                shapeRenderer.setColor(0, 0, 1, 1);
+                shapeRenderer.triangle(position.x, position.y, position.x + width, position.y, position.x + width / 2, position.y + height);
+                break;
+            case STAR:
+                shapeRenderer.setColor(1, 1, 0, 1);
+                drawStar(shapeRenderer);
+                break;
+        }
     }
     public void update(float deltaTime)
     {
+        if(currentShape == ShapeType.CIRCLE)
+        {
+            speed = 400;
+        }
+        else speed = 200;
+
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A))
         {
             position.x -= speed * deltaTime;  //left
@@ -47,6 +73,28 @@ public class Player
         float screenHeight = 1080;
         position.x = MathUtils.clamp(position.x, 0, screenWidth - width);
         position.y = MathUtils.clamp(position.y, 0, screenHeight - height);
+    }
+    public void switchShape()
+    {
+        if (currentShape == ShapeType.SQUARE) {
+            currentShape = ShapeType.CIRCLE;
+        } else if (currentShape == ShapeType.CIRCLE) {
+            currentShape = ShapeType.TRIANGLE;
+        } else if (currentShape == ShapeType.TRIANGLE) {
+            currentShape = ShapeType.STAR;
+        } else if (currentShape == ShapeType.STAR) {
+            currentShape = ShapeType.SQUARE;
+        }
+    }
+    private void drawStar(ShapeRenderer shapeRenderer)
+    {
+        float centerX = position.x + width / 2;
+        float centerY = position.y + height / 2;
+        float radius = width / 2;
+
+        shapeRenderer.line(centerX, centerY + radius, centerX, centerY - radius);
+        shapeRenderer.line(centerX - radius, centerY, centerX + radius, centerY);
+        shapeRenderer.line(centerX - radius / 2, centerY + radius / 2, centerX + radius / 2, centerY - radius / 2);
     }
     public float getWidth() {
         return width;
@@ -75,5 +123,8 @@ public class Player
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+    public ShapeType getCurrentShape() {
+        return currentShape;
     }
 }

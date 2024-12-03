@@ -99,6 +99,10 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             togglePause();
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+        {
+            player.switchShape();
+        }
     }
 
     @Override
