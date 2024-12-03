@@ -26,11 +26,13 @@ public class GameScreen implements Screen {
     private ShapeRenderer shapeRenderer;
     private FinishPoint finishPoint;
     private List<Water> waterBlocks;
+    private List<StickyTile> stickyTiles;
     private Music level1Music;
 
     public GameScreen(MainGame game) {
         this.game = game;
         waterBlocks = new ArrayList<>();
+        stickyTiles = new ArrayList<>();
     }
 
     @Override
@@ -47,6 +49,9 @@ public class GameScreen implements Screen {
 
         waterBlocks.add(new Water(500, 500, 100, 100));
         waterBlocks.add(new Water(800, 300, 100, 100));
+
+        stickyTiles.add(new StickyTile(300,300,100,100));
+        stickyTiles.add(new StickyTile(600,600,150,150));
 
         table = new Table();
         table.top().left();
@@ -94,19 +99,36 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (isPaused) {
+        if (isPaused)
+        {
             stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
             stage.draw();
-        } else {
-            player.update(Gdx.graphics.getDeltaTime(), waterBlocks);
+        }
+        else
+        {
+            boolean onStickyTile = false;
+            for (StickyTile stickyTile : stickyTiles)
+            {
+                if (stickyTile.checkCollision(player.getPosition().x, player.getPosition().y, player.getWidth(), player.getHeight()))
+                {
+                    onStickyTile = true;
+                    break;
+                }
+            }
 
+            player.update(Gdx.graphics.getDeltaTime(), waterBlocks, onStickyTile);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            player.render(shapeRenderer);
-            finishPoint.render(shapeRenderer);
 
             for (Water water : waterBlocks) {
                 water.render(shapeRenderer);
             }
+
+            for (StickyTile stickyTile : stickyTiles) {
+                stickyTile.render(shapeRenderer);
+            }
+
+            player.render(shapeRenderer);
+            finishPoint.render(shapeRenderer);
 
             shapeRenderer.end();
 
@@ -125,7 +147,6 @@ public class GameScreen implements Screen {
         }
 
         if (player.getCurrentShape().equals(ShapeType.TRIANGLE) && Gdx.input.isKeyJustPressed(Input.Keys.Q) && player.getDashCooldownTimer() <= 0) {
-
             float dashX = player.getPosition().x;
             float dashY = player.getPosition().y;
 

@@ -54,12 +54,20 @@ public class Player
                 break;
         }
     }
-    public void update(float deltaTime, List<Water> waterBlocks)
+    public void update(float deltaTime, List<Water> waterBlocks, boolean onStickyTile)
     {
         if (currentShape == ShapeType.CIRCLE) {
             speed = 400;
         } else {
             speed = 200;
+        }
+        if(onStickyTile)
+        {
+            if(currentShape == ShapeType.CIRCLE)
+            {
+                speed = 400;
+            }
+            else speed *= 0.25f;
         }
 
         if (dashCooldownTimer > 0) {
