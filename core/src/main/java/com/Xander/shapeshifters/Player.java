@@ -22,7 +22,6 @@ public class Player
     }
     public void render(ShapeRenderer shapeRenderer)
     {
-        shapeRenderer.setColor(1,1,1,1);
         shapeRenderer.rect(position.x, position.y, width, height);
     }
     public void update(float deltaTime)
