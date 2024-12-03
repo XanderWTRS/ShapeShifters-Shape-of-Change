@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import java.util.List;
+import java.util.ArrayList;
 import com.badlogic.gdx.audio.Music;
 
 public class GameScreen implements Screen {
@@ -37,6 +38,10 @@ public class GameScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        level1Music = Gdx.audio.newMusic(Gdx.files.internal("sounds/level1_theme.mp3"));
+        level1Music.setLooping(true);
+        level1Music.play();
 
         player = new Player(100, 100, 50, 50);
         finishPoint = new FinishPoint(1500, 800, 100,100);
@@ -86,7 +91,6 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void render(float delta) {
     public void render(float delta)
     {
         Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -174,6 +178,11 @@ public class GameScreen implements Screen {
     public void hide() {
         stage.dispose();
         shapeRenderer.dispose();
+        if(level1Music != null)
+        {
+            level1Music.stop();
+            level1Music.dispose();
+        }
     }
 
     @Override
