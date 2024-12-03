@@ -40,8 +40,7 @@ public class GameScreen implements Screen {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         level1Music = Gdx.audio.newMusic(Gdx.files.internal("sounds/level1_theme.mp3"));
-        level1Music.setLooping(true);
-        level1Music.play();
+        AudioManager.playMusic(level1Music, true);
 
         player = new Player(100, 100, 50, 50);
         finishPoint = new FinishPoint(1500, 800, 100,100);
