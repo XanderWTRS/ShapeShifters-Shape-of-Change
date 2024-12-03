@@ -2,6 +2,7 @@ package com.Xander.shapeshifters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -18,6 +19,7 @@ public class Player
     public boolean canDash;
     private float dashCooldownTime = 0.2f;
     private float dashCooldownTimer = 0f;
+    private Sound dashSound;
 
     public Player(float x, float y, float width, float height)
     {
@@ -28,6 +30,7 @@ public class Player
         this.currentShape = ShapeType.SQUARE;
         this.dashDistance = 300;
         this.canDash = true;
+        dashSound = Gdx.audio.newSound(Gdx.files.internal("sounds/dash_sound.mp3"));
     }
     public void render(ShapeRenderer shapeRenderer)
     {
@@ -140,6 +143,11 @@ public class Player
 
         position.x += velocityX;
         position.y += velocityY;
+
+        if(dashSound != null)
+        {
+            dashSound.play();
+        }
 
         canDash = false;
     }
