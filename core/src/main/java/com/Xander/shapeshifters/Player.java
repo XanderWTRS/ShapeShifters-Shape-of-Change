@@ -54,7 +54,7 @@ public class Player
                 break;
         }
     }
-    public void update(float deltaTime, List<Water> waterBlocks, boolean onStickyTile)
+    public void update(float deltaTime, List<Water> waterBlocks, boolean onStickyTile, List<ConveyorBeltTile> conveyorBeltTiles)
     {
         if (currentShape == ShapeType.CIRCLE) {
             speed = 400;
@@ -68,6 +68,14 @@ public class Player
                 speed = 400;
             }
             else speed *= 0.25f;
+        }
+
+        for (ConveyorBeltTile conveyor : conveyorBeltTiles) {
+            if (conveyor.checkCollision(position.x, position.y, width, height)) {
+                position.x += conveyor.getSpeedX() * deltaTime;
+                position.y += conveyor.getSpeedY() * deltaTime;
+                break;
+            }
         }
 
         if (dashCooldownTimer > 0) {

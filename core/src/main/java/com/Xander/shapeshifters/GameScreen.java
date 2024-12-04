@@ -27,12 +27,14 @@ public class GameScreen implements Screen {
     private FinishPoint finishPoint;
     private List<Water> waterBlocks;
     private List<StickyTile> stickyTiles;
+    private List<ConveyorBeltTile> conveyorBeltTiles;
     private Music level1Music;
 
     public GameScreen(MainGame game) {
         this.game = game;
         waterBlocks = new ArrayList<>();
         stickyTiles = new ArrayList<>();
+        conveyorBeltTiles = new ArrayList<>();
     }
 
     @Override
@@ -52,6 +54,10 @@ public class GameScreen implements Screen {
 
         stickyTiles.add(new StickyTile(300,300,100,100));
         stickyTiles.add(new StickyTile(600,600,150,150));
+
+        conveyorBeltTiles.add(new ConveyorBeltTile(600, 400, 100, 100, 200, 0));
+        conveyorBeltTiles.add(new ConveyorBeltTile(800, 400, 100, 100, -200, 0));
+        conveyorBeltTiles.add(new ConveyorBeltTile(1000, 400, 100, 100, 0, 200));
 
         table = new Table();
         table.top().left();
@@ -116,7 +122,7 @@ public class GameScreen implements Screen {
                 }
             }
 
-            player.update(Gdx.graphics.getDeltaTime(), waterBlocks, onStickyTile);
+            player.update(Gdx.graphics.getDeltaTime(), waterBlocks, onStickyTile, conveyorBeltTiles);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
             for (Water water : waterBlocks) {
@@ -125,6 +131,10 @@ public class GameScreen implements Screen {
 
             for (StickyTile stickyTile : stickyTiles) {
                 stickyTile.render(shapeRenderer);
+            }
+
+            for (ConveyorBeltTile conveyor : conveyorBeltTiles) {
+                conveyor.render(shapeRenderer);
             }
 
             player.render(shapeRenderer);
