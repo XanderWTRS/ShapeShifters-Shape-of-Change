@@ -5,6 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -29,6 +32,9 @@ public class GameScreen implements Screen {
     private List<StickyTile> stickyTiles;
     private List<ConveyorBeltTile> conveyorBeltTiles;
     private Music level1Music;
+    private SpriteBatch spriteBatch;
+    private Texture backgroundTexture;
+    private TextureRegion backgroundRegion;
 
     public GameScreen(MainGame game) {
         this.game = game;
@@ -40,44 +46,39 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         stage = new Stage();
+        spriteBatch = new SpriteBatch();
+
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         level1Music = Gdx.audio.newMusic(Gdx.files.internal("sounds/level1_theme.mp3"));
         AudioManager.playMusic(level1Music, true);
 
+        backgroundTexture = new Texture(Gdx.files.internal("tiles/Grass-img.png"));
+        backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
         player = new Player(100, 100, 50, 50);
         finishPoint = new FinishPoint(1500, 800, 100,100);
 
-        waterBlocks.add(new Water(500, 500, 100, 100));
-        waterBlocks.add(new Water(800, 300, 100, 100));
+        waterBlocks.add(new Water(500, 500, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(800, 300, 100, 100, "tiles/Water-img.png"));
 
-        stickyTiles.add(new StickyTile(300,300,100,100));
-        stickyTiles.add(new StickyTile(600,600,150,150));
+        stickyTiles.add(new StickyTile(300,300,100,100, "tiles/Mud-img.png"));
+        stickyTiles.add(new StickyTile(600,600,100,100, "tiles/Mud-img.png"));
 
-        conveyorBeltTiles.add(new ConveyorBeltTile(600, 400, 100, 100, 200, 0));
-        conveyorBeltTiles.add(new ConveyorBeltTile(800, 400, 100, 100, -200, 0));
-        conveyorBeltTiles.add(new ConveyorBeltTile(1000, 400, 100, 100, 0, 200));
+        conveyorBeltTiles.add(new ConveyorBeltTile(600, 400, 100, 100, 150, 0, "tiles/ConveyorBeltRight-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(800, 400, 100, 100, -150, 0, "tiles/ConveyorBeltLeft-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(1000, 400, 100, 100, 0, 150, "tiles/ConveyorBeltUp-img.png"));
 
         table = new Table();
         table.top().left();
         table.setFillParent(true);
-
 
         TextButton resumeButton = new TextButton("Resume Game", skin);
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 resumeGame();
-            }
-        });
-
-        TextButton settingsButton = new TextButton("Settings", skin);
-        settingsButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.setPreviousScreen(game.getScreen());
-                game.setScreen(new SettingsScreen(game));
             }
         });
 
@@ -112,6 +113,9 @@ public class GameScreen implements Screen {
         }
         else
         {
+            spriteBatch.begin();
+            spriteBatch.draw(backgroundTexture, 0,0,0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
             boolean onStickyTile = false;
             for (StickyTile stickyTile : stickyTiles)
             {
@@ -126,20 +130,21 @@ public class GameScreen implements Screen {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
             for (Water water : waterBlocks) {
-                water.render(shapeRenderer);
+                water.render(spriteBatch);
             }
 
             for (StickyTile stickyTile : stickyTiles) {
-                stickyTile.render(shapeRenderer);
+                stickyTile.render(spriteBatch);
             }
 
             for (ConveyorBeltTile conveyor : conveyorBeltTiles) {
-                conveyor.render(shapeRenderer);
+                conveyor.render(spriteBatch);
             }
 
             player.render(shapeRenderer);
             finishPoint.render(shapeRenderer);
 
+            spriteBatch.end();
             shapeRenderer.end();
 
             stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -221,13 +226,38 @@ public class GameScreen implements Screen {
     public void resume() {}
 
     @Override
-    public void dispose() {
+    public void dispose()
+    {
+        for(StickyTile stickyTile : stickyTiles)
+        {
+            stickyTile.dispose();
+        }
+        for(Water waterTile : waterBlocks)
+        {
+            waterTile.dispose();
+        }
+        for(ConveyorBeltTile conveyorBeltTile : conveyorBeltTiles)
+        {
+            conveyorBeltTile.dispose();
+        }
+        if (stage != null) {
+            stage.dispose();
+        }
+        if (spriteBatch != null) {
+            spriteBatch.dispose();
+        }
+        if (backgroundTexture != null) {
+            backgroundTexture.dispose();
+        }
+        shapeRenderer.dispose();
         skin.dispose();
     }
 
     public void togglePause() {
         isPaused = !isPaused;
-        table.setVisible(isPaused);
+        if (table != null) {
+            table.setVisible(isPaused);
+        }
     }
 
     private void resumeGame() {
