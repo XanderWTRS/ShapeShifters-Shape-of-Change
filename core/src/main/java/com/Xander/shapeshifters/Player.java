@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Player
     private float dashCooldownTime = 0.2f;
     private float dashCooldownTimer = 0f;
     private Sound dashSound;
+    private String currentDirection;
 
     public Player(float x, float y, float width, float height)
     {
@@ -54,9 +56,69 @@ public class Player
                 break;
         }
     }
-    public void update(float deltaTime, List<Water> waterBlocks, boolean onStickyTile, List<ConveyorBeltTile> conveyorBeltTiles)
+    public void update(float deltaTime, List<Water> waterBlocks, boolean onStickyTile, List<ConveyorBeltTile> conveyorBeltTiles, List<OneWayTile> oneWayTiles, List<FragileTile> fragileTiles, List<WallTile> wallTiles)
     {
-        if (currentShape == ShapeType.CIRCLE) {
+        float velocityX = 0;
+        float velocityY = 0;
+        currentDirection = "NONE";
+
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+            velocityX = -speed * deltaTime;
+            currentDirection = "LEFT";
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+            velocityX = speed * deltaTime;
+            currentDirection = "RIGHT";
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+            velocityY = speed * deltaTime;
+            currentDirection = "UP";
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+            velocityY = -speed * deltaTime;
+            currentDirection = "DOWN";
+        }
+
+        boolean canMove = true;
+        for (OneWayTile oneWayTile : oneWayTiles) {
+            if (oneWayTile.checkCollision(position.x + velocityX, position.y + velocityY, width, height)) {
+                if (!oneWayTile.allowMovement(this)) {
+                    canMove = false;
+                    break;
+                }
+            }
+        }
+        for (FragileTile fragileTile : fragileTiles) {
+            fragileTile.checkPlayerInteraction(this);
+            if (fragileTile.isBlocked()) {
+                Rectangle playerBounds = new Rectangle(position.x + velocityX, position.y + velocityY, width, height);
+
+                if (fragileTile.isCollidingWith(playerBounds)) {
+
+                    if (velocityX > 0) velocityX = 0;
+                    if (velocityX < 0) velocityX = 0;
+                    if (velocityY > 0) velocityY = 0;
+                    if (velocityY < 0) velocityY = 0;
+                }
+            }
+        }
+
+        if (canMove) {
+            if (isCollidingWithWater(position.x + velocityX, position.y + velocityY, waterBlocks)) {
+                velocityX = 0;
+                velocityY = 0;
+            }
+            if (isCollidingWithWall(position.x + velocityX, position.y + velocityY, wallTiles)) {
+                velocityX = 0;
+                velocityY = 0;
+            }
+
+            position.x += velocityX;
+            position.y += velocityY;
+        }
+
+        if (currentShape == ShapeType.CIRCLE)
+        {
             speed = 400;
         } else {
             speed = 200;
@@ -78,32 +140,10 @@ public class Player
             }
         }
 
+
         if (dashCooldownTimer > 0) {
             dashCooldownTimer -= deltaTime;
         }
-
-        float velocityX = 0;
-        float velocityY = 0;
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-            velocityX = -speed * deltaTime;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-            velocityX = speed * deltaTime;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-            velocityY = speed * deltaTime;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-            velocityY = -speed * deltaTime;
-        }
-
-        if (isCollidingWithWater(position.x + velocityX, position.y + velocityY, waterBlocks)) {
-            velocityX = 0;
-            velocityY = 0;
-        }
-        position.x += velocityX;
-        position.y += velocityY;
 
         float screenWidth = 1920;
         float screenHeight = 1080;
@@ -165,6 +205,17 @@ public class Player
 
         canDash = false;
     }
+    public boolean isCollidingWithWall(float newX, float newY, List<WallTile> walls) {
+        for (WallTile wall : walls) {
+            Rectangle playerBounds = new Rectangle(newX, newY, width, height);
+
+            if (playerBounds.overlaps(new Rectangle(wall.getX(), wall.getY(), wall.getWidth(), wall.getHeight()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public float getWidth() {
         return width;
     }
@@ -213,5 +264,9 @@ public class Player
 
     public float getDashCooldownTimer() {
         return dashCooldownTimer;
+    }
+
+    public String getCurrentDirection() {
+        return currentDirection;
     }
 }

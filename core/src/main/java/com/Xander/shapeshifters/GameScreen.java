@@ -31,16 +31,21 @@ public class GameScreen implements Screen {
     private List<Water> waterBlocks;
     private List<StickyTile> stickyTiles;
     private List<ConveyorBeltTile> conveyorBeltTiles;
+    private List<OneWayTile> oneWayTiles;
+    private List<FragileTile> fragileTiles;
+    private  List<WallTile> wallTiles;
     private Music level1Music;
     private SpriteBatch spriteBatch;
     private Texture backgroundTexture;
-    private TextureRegion backgroundRegion;
 
     public GameScreen(MainGame game) {
         this.game = game;
         waterBlocks = new ArrayList<>();
         stickyTiles = new ArrayList<>();
         conveyorBeltTiles = new ArrayList<>();
+        oneWayTiles = new ArrayList<>();
+        fragileTiles = new ArrayList<>();
+        wallTiles = new ArrayList<>();
     }
 
     @Override
@@ -69,6 +74,14 @@ public class GameScreen implements Screen {
         conveyorBeltTiles.add(new ConveyorBeltTile(600, 400, 100, 100, 150, 0, "tiles/ConveyorBeltRight-img.png"));
         conveyorBeltTiles.add(new ConveyorBeltTile(800, 400, 100, 100, -150, 0, "tiles/ConveyorBeltLeft-img.png"));
         conveyorBeltTiles.add(new ConveyorBeltTile(1000, 400, 100, 100, 0, 150, "tiles/ConveyorBeltUp-img.png"));
+
+        oneWayTiles.add(new OneWayTile(300,900,100,100,"Up", "UP"));
+        oneWayTiles.add(new OneWayTile(500, 700, 100, 100, "Right", "RIGHT"));
+
+        fragileTiles.add(new FragileTile(1400, 300, 100, 100));
+        fragileTiles.add(new FragileTile(1000, 300, 100, 100));
+
+        wallTiles.add(new WallTile(100,50,100,25));
 
         table = new Table();
         table.top().left();
@@ -126,7 +139,7 @@ public class GameScreen implements Screen {
                 }
             }
 
-            player.update(Gdx.graphics.getDeltaTime(), waterBlocks, onStickyTile, conveyorBeltTiles);
+            player.update(Gdx.graphics.getDeltaTime(), waterBlocks, onStickyTile, conveyorBeltTiles, oneWayTiles, fragileTiles, wallTiles);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
             for (Water water : waterBlocks) {
@@ -139,6 +152,15 @@ public class GameScreen implements Screen {
 
             for (ConveyorBeltTile conveyor : conveyorBeltTiles) {
                 conveyor.render(spriteBatch);
+            }
+            for (OneWayTile oneWayTile : oneWayTiles) {
+                oneWayTile.render(spriteBatch);
+            }
+            for (FragileTile fragileTile : fragileTiles) {
+                fragileTile.render(spriteBatch);
+            }
+            for (WallTile wall : wallTiles) {
+                wall.render(spriteBatch);
             }
 
             player.render(shapeRenderer);
@@ -193,16 +215,6 @@ public class GameScreen implements Screen {
         }
     }
 
-
-    private boolean isCollidingWithWater(float newX, float newY) {
-        for (Water water : waterBlocks) {
-            if (water.checkCollision(newX, newY, player.getWidth(), player.getHeight())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
@@ -239,6 +251,12 @@ public class GameScreen implements Screen {
         for(ConveyorBeltTile conveyorBeltTile : conveyorBeltTiles)
         {
             conveyorBeltTile.dispose();
+        }
+        for (OneWayTile oneWayTile : oneWayTiles) {
+            oneWayTile.dispose();
+        }
+        for (FragileTile fragileTile : fragileTiles) {
+            fragileTile.dispose();
         }
         if (stage != null) {
             stage.dispose();
