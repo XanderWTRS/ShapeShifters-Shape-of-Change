@@ -56,7 +56,7 @@ public class GameCompleteScreen implements Screen {
         table.center();
 
         Label titleLabel = new Label("GAME COMPLETE", new Label.LabelStyle(titleFont, Color.BLACK));
-        Label coinLabel = new Label("Total Coins: " + (totalCoins -1), new Label.LabelStyle(coinFont, Color.BLACK));
+        Label coinLabel = new Label("Total Coins: " + (totalCoins - 7), new Label.LabelStyle(coinFont, Color.BLACK));
 
         TextButton backToMainMenuButton = new TextButton("Back to Main Menu", skin);
         backToMainMenuButton.addListener(new ChangeListener() {

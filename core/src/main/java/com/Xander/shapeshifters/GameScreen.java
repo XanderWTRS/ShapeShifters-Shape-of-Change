@@ -74,28 +74,107 @@ public class GameScreen implements Screen {
         backgroundTexture = new Texture(Gdx.files.internal("tiles/Grass-img.png"));
         backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
-        player = new Player(100, 100, 50, 50);
-        finishPoint = new FinishPoint(1500, 800, 100,100);
+        player = new Player(50, 50, 50, 50);
+        finishPoint = new FinishPoint(1700, 910, 100, 100);
 
-        waterBlocks.add(new Water(500, 500, 100, 100, "tiles/Water-img.png"));
-        waterBlocks.add(new Water(800, 300, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(0, 200, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(100, 200, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(200, 200, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(200, 100, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(200, 0, 100, 100, "tiles/Water-img.png"));
 
-        stickyTiles.add(new StickyTile(300,300,100,100, "tiles/Mud-img.png"));
-        stickyTiles.add(new StickyTile(600,600,100,100, "tiles/Mud-img.png"));
+        //FINISH
+        waterBlocks.add(new Water(1600, 1000, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(1600, 900, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(1600, 800, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(1700, 800, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(1800, 800, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(1900, 800, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(2000, 800, 100, 100, "tiles/Water-img.png"));
 
-        conveyorBeltTiles.add(new ConveyorBeltTile(600, 400, 100, 100, 150, 0, "tiles/ConveyorBeltRight-img.png"));
-        conveyorBeltTiles.add(new ConveyorBeltTile(800, 400, 100, 100, -150, 0, "tiles/ConveyorBeltLeft-img.png"));
-        conveyorBeltTiles.add(new ConveyorBeltTile(1000, 400, 100, 100, 0, 150, "tiles/ConveyorBeltUp-img.png"));
+        wallTiles.add(new WallTile(0, 400, 100, 100));
+        oneWayTiles.add(new OneWayTile(100, 400, 100, 100, "UP","UP"));
+        wallTiles.add(new WallTile(200, 400, 100, 100));
+        wallTiles.add(new WallTile(300, 400, 100, 100));
+        wallTiles.add(new WallTile(400, 400, 100, 100));
+        wallTiles.add(new WallTile(500, 400, 100, 100));
+        wallTiles.add(new WallTile(600, 400, 100, 100));
+        wallTiles.add(new WallTile(700, 400, 100, 100));
+        wallTiles.add(new WallTile(800, 400, 100, 100));
+        wallTiles.add(new WallTile(900, 400, 100, 100));
+        wallTiles.add(new WallTile(1000, 400, 100, 100));
+        wallTiles.add(new WallTile(1100, 400, 100, 100));
+        wallTiles.add(new WallTile(1200, 400, 100, 100));
+        wallTiles.add(new WallTile(1300, 400, 100, 100));
+        wallTiles.add(new WallTile(1400, 400, 100, 100));
+        wallTiles.add(new WallTile(1500, 400, 100, 100));
+        wallTiles.add(new WallTile(1600, 400, 100, 100));
+        oneWayTiles.add(new OneWayTile(1700, 400, 100, 100, "UP", "UP"));
+        wallTiles.add(new WallTile(1800, 400, 100, 100));
+        wallTiles.add(new WallTile(1900, 400, 100, 100));
+        wallTiles.add(new WallTile(2000, 400, 100, 100));
 
-        oneWayTiles.add(new OneWayTile(300,900,100,100,"Up", "UP"));
-        oneWayTiles.add(new OneWayTile(500, 700, 100, 100, "Right", "RIGHT"));
+        wallTiles.add(new WallTile(2000, 200, 100, 100));
+        wallTiles.add(new WallTile(1900, 200, 100, 100));
+        wallTiles.add(new WallTile(1800, 200, 100, 100));
+        fragileTiles.add(new FragileTile(1700, 200, 100, 100));
+        wallTiles.add(new WallTile(1600, 200, 100, 100));
+        stickyTiles.add(new StickyTile(1600, 100, 100, 100, "tiles/Mud-img.png"));
+        stickyTiles.add(new StickyTile(1600, 0, 100, 100, "tiles/Mud-img.png"));
+        stickyTiles.add(new StickyTile(1700, 100, 100, 100, "tiles/Mud-img.png"));
+        stickyTiles.add(new StickyTile(1700, 0, 100, 100, "tiles/Mud-img.png"));
+        stickyTiles.add(new StickyTile(1800, 100, 100, 100, "tiles/Mud-img.png"));
+        wallTiles.add(new WallTile(1500, 200, 100, 100));
+        wallTiles.add(new WallTile(1500, 100, 100, 100));
+        wallTiles.add(new WallTile(1500, 0, 100, 100));
 
-        fragileTiles.add(new FragileTile(1400, 300, 100, 100));
-        fragileTiles.add(new FragileTile(1000, 300, 100, 100));
+        waterBlocks.add(new Water(600, 200, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(900, 100, 100, 100, "tiles/Water-img.png"));
+        waterBlocks.add(new Water(1200, 0, 100, 100, "tiles/Water-img.png"));
+        stickyTiles.add(new StickyTile(700, 100, 100, 100, "tiles/Mud-img.png"));
+        stickyTiles.add(new StickyTile(800, 200, 100, 100, "tiles/Mud-img.png"));
+        stickyTiles.add(new StickyTile(1300, 100, 100, 100, "tiles/Mud-img.png"));
+        fragileTiles.add(new FragileTile(1300, 0, 100, 100));
+        coins.add(new Coin(1415, 15));
+        fragileTiles.add(new FragileTile(1400, 100, 100, 100));
+        stickyTiles.add(new StickyTile(1300, 200, 100, 100, "tiles/Mud-img.png"));
+        stickyTiles.add(new StickyTile(1000, 0, 100, 100, "tiles/Mud-img.png"));
 
-        wallTiles.add(new WallTile(100,50,100,25));
+        wallTiles.add(new WallTile(400, 300, 100, 100));
+        oneWayTiles.add(new OneWayTile(400, 200, 100, 100, "RIGHT", "RIGHT"));
+        wallTiles.add(new WallTile(400, 100, 100, 100));
+        wallTiles.add(new WallTile(400, 0, 100, 100));
+        wallTiles.add(new WallTile(400, 500, 100, 100));
+        wallTiles.add(new WallTile(400, 600, 100, 100));
+        wallTiles.add(new WallTile(400, 700, 100, 100));
+        conveyorBeltTiles.add(new ConveyorBeltTile(400, 800, 100, 100, 150, 0, "tiles/ConveyorBeltRight-img.png"));
+        wallTiles.add(new WallTile(400, 900, 100, 100));
+        wallTiles.add(new WallTile(400, 1000, 100, 100));
 
-        coins.add(new Coin(100,200));
+        conveyorBeltTiles.add(new ConveyorBeltTile(300, 800, 100, 100, 150, 0, "tiles/ConveyorBeltRight-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(500, 800, 100, 100, 150, 0, "tiles/ConveyorBeltRight-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(600, 800, 100, 100, 150, 0, "tiles/ConveyorBeltRight-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(700, 800, 100, 100, 150, 0, "tiles/ConveyorBeltRight-img.png"));
+
+        conveyorBeltTiles.add(new ConveyorBeltTile(1100, 1000, 100, 100, 0, -150, "tiles/ConveyorBeltDown-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(1100, 900, 100, 100, 0, -150, "tiles/ConveyorBeltDown-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(1100, 800, 100, 100, 0, -150, "tiles/ConveyorBeltDown-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(1100, 700, 100, 100, 0, -150, "tiles/ConveyorBeltDown-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(1100, 600, 100, 100, 0, -150, "tiles/ConveyorBeltDown-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(1100, 500, 100, 100, 0, -150, "tiles/ConveyorBeltDown-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(1300, 500, 100, 100, 0, 150, "tiles/ConveyorBeltUp-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(1300, 600, 100, 100, 0, 150, "tiles/ConveyorBeltUp-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(1300, 700, 100, 100, 0, 150, "tiles/ConveyorBeltUp-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(1300, 800, 100, 100, 0, 150, "tiles/ConveyorBeltUp-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(1300, 900, 100, 100, 0, 150, "tiles/ConveyorBeltUp-img.png"));
+        conveyorBeltTiles.add(new ConveyorBeltTile(1300, 1000, 100, 100, 0, 150, "tiles/ConveyorBeltUp-img.png"));
+
+        coins.add(new Coin(100, 300));
+        coins.add(new Coin(300, 100));
+        coins.add(new Coin(1850, 0));
+        coins.add(new Coin(1850, 1000));
+        coins.add(new Coin(1215, 800));
+        coins.add(new Coin(1215, 600));
 
         table = new Table();
         table.top().left();
