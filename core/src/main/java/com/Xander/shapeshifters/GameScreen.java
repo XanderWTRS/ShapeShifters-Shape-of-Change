@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.utils.Align;
 import java.util.List;
 import java.util.ArrayList;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.utils.Array;
 
 public class GameScreen implements Screen {
 
@@ -34,9 +36,13 @@ public class GameScreen implements Screen {
     private List<OneWayTile> oneWayTiles;
     private List<FragileTile> fragileTiles;
     private  List<WallTile> wallTiles;
+    private List<Coin> coins;
+    private int coinCount = 0;
     private Music level1Music;
     private SpriteBatch spriteBatch;
     private Texture backgroundTexture;
+    private BitmapFont font;
+    private Texture coinTexture;
 
     public GameScreen(MainGame game) {
         this.game = game;
@@ -46,12 +52,17 @@ public class GameScreen implements Screen {
         oneWayTiles = new ArrayList<>();
         fragileTiles = new ArrayList<>();
         wallTiles = new ArrayList<>();
+        coins = new ArrayList<>();
     }
 
     @Override
     public void show() {
         stage = new Stage();
         spriteBatch = new SpriteBatch();
+
+        font = new BitmapFont();
+        font.setColor(Color.BLACK);
+        coinTexture = new Texture("tiles/Coin-trans.png");
 
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -82,6 +93,8 @@ public class GameScreen implements Screen {
         fragileTiles.add(new FragileTile(1000, 300, 100, 100));
 
         wallTiles.add(new WallTile(100,50,100,25));
+
+        coins.add(new Coin(100,200));
 
         table = new Table();
         table.top().left();
@@ -119,6 +132,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        checkCoinCollisions();
+
         if (isPaused)
         {
             stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -139,7 +154,7 @@ public class GameScreen implements Screen {
                 }
             }
 
-            player.update(Gdx.graphics.getDeltaTime(), waterBlocks, onStickyTile, conveyorBeltTiles, oneWayTiles, fragileTiles, wallTiles);
+            player.update(Gdx.graphics.getDeltaTime(), waterBlocks, onStickyTile, conveyorBeltTiles, oneWayTiles, fragileTiles, wallTiles, coins);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
             for (Water water : waterBlocks) {
@@ -162,9 +177,20 @@ public class GameScreen implements Screen {
             for (WallTile wall : wallTiles) {
                 wall.render(spriteBatch);
             }
+            for (Coin coin : coins) {
+                coin.render(spriteBatch);
+            }
+
+            float coinImageX = 10;
+            float coinImageY = Gdx.graphics.getHeight() - 75;
+            float coinImageSize = 75;
+            spriteBatch.draw(coinTexture, coinImageX, coinImageY, coinImageSize, coinImageSize);
+            float counterX = coinImageX + coinImageSize + 10;
+            float counterY = coinImageY + coinImageSize / 2 + 5;
+            font.draw(spriteBatch, String.valueOf(coinCount), counterX, counterY);
 
             player.render(shapeRenderer);
-            finishPoint.render(shapeRenderer);
+            finishPoint.render(spriteBatch);
 
             spriteBatch.end();
             shapeRenderer.end();
@@ -211,6 +237,15 @@ public class GameScreen implements Screen {
             if (canDash) {
                 player.dashForward();
                 player.startDashCooldown();
+            }
+        }
+    }
+
+    private void checkCoinCollisions() {
+        for (Coin coin : coins) {
+            if (!coin.isCollected() && player.getBounds().overlaps(coin.getBounds())) {
+                coin.collect();
+                coinCount++;
             }
         }
     }
@@ -267,6 +302,10 @@ public class GameScreen implements Screen {
         if (backgroundTexture != null) {
             backgroundTexture.dispose();
         }
+        if (font != null) {
+            font.dispose();
+        }
+        coinTexture.dispose();
         shapeRenderer.dispose();
         skin.dispose();
     }

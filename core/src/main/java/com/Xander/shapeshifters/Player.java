@@ -56,7 +56,7 @@ public class Player
                 break;
         }
     }
-    public void update(float deltaTime, List<Water> waterBlocks, boolean onStickyTile, List<ConveyorBeltTile> conveyorBeltTiles, List<OneWayTile> oneWayTiles, List<FragileTile> fragileTiles, List<WallTile> wallTiles)
+    public void update(float deltaTime, List<Water> waterBlocks, boolean onStickyTile, List<ConveyorBeltTile> conveyorBeltTiles, List<OneWayTile> oneWayTiles, List<FragileTile> fragileTiles, List<WallTile> wallTiles, List<Coin> coins)
     {
         float velocityX = 0;
         float velocityY = 0;
@@ -214,6 +214,10 @@ public class Player
             }
         }
         return false;
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(position.x, position.y, width, height);
     }
 
     public float getWidth() {
