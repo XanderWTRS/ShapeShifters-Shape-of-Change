@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.Array;
 
-public class GameScreen implements Screen {
+public class Level2Screen implements Screen {
 
     private final MainGame game;
     private Stage stage;
@@ -44,7 +44,7 @@ public class GameScreen implements Screen {
     private BitmapFont font;
     private Texture coinTexture;
 
-    public GameScreen(MainGame game) {
+    public Level2Screen(MainGame game) {
         this.game = game;
         waterBlocks = new ArrayList<>();
         stickyTiles = new ArrayList<>();
@@ -62,7 +62,7 @@ public class GameScreen implements Screen {
 
         font = new BitmapFont();
         font.setColor(Color.BLACK);
-        coinCount = 0;
+        coinCount = game.getTotalCoins();
         coinTexture = new Texture("tiles/Coin-trans.png");
 
         Gdx.input.setInputProcessor(stage);
@@ -77,25 +77,9 @@ public class GameScreen implements Screen {
         player = new Player(100, 100, 50, 50);
         finishPoint = new FinishPoint(1500, 800, 100,100);
 
-        waterBlocks.add(new Water(500, 500, 100, 100, "tiles/Water-img.png"));
-        waterBlocks.add(new Water(800, 300, 100, 100, "tiles/Water-img.png"));
-
-        stickyTiles.add(new StickyTile(300,300,100,100, "tiles/Mud-img.png"));
-        stickyTiles.add(new StickyTile(600,600,100,100, "tiles/Mud-img.png"));
-
-        conveyorBeltTiles.add(new ConveyorBeltTile(600, 400, 100, 100, 150, 0, "tiles/ConveyorBeltRight-img.png"));
-        conveyorBeltTiles.add(new ConveyorBeltTile(800, 400, 100, 100, -150, 0, "tiles/ConveyorBeltLeft-img.png"));
-        conveyorBeltTiles.add(new ConveyorBeltTile(1000, 400, 100, 100, 0, 150, "tiles/ConveyorBeltUp-img.png"));
-
-        oneWayTiles.add(new OneWayTile(300,900,100,100,"Up", "UP"));
-        oneWayTiles.add(new OneWayTile(500, 700, 100, 100, "Right", "RIGHT"));
-
-        fragileTiles.add(new FragileTile(1400, 300, 100, 100));
-        fragileTiles.add(new FragileTile(1000, 300, 100, 100));
-
-        wallTiles.add(new WallTile(100,50,100,25));
-
         coins.add(new Coin(100,200));
+        coins.add(new Coin(400,800));
+        coins.add(new Coin(900,500));
 
         table = new Table();
         table.top().left();
@@ -208,7 +192,7 @@ public class GameScreen implements Screen {
         }
         if (finishPoint.checkCollision(player.getPosition().x, player.getPosition().y, player.getWidth(), player.getHeight())) {
             game.addCoins(coinCount);
-            game.setScreen(new Level2Screen(game));
+            game.setScreen(new GameCompleteScreen(game, game.getTotalCoins()));
         }
 
         if (player.getCurrentShape().equals(ShapeType.TRIANGLE) && Gdx.input.isKeyJustPressed(Input.Keys.Q) && player.getDashCooldownTimer() <= 0) {

@@ -9,6 +9,7 @@ public class MainGame extends Game
     public SpriteBatch batch;
     private AudioManager audioManager;
     private Screen previousScreen;
+    private int totalCoins;
     @Override
     public void create()
     {
@@ -33,5 +34,13 @@ public class MainGame extends Game
 
     public void setPreviousScreen(Screen previousScreen) {
         this.previousScreen = previousScreen;
+    }
+
+    public int getTotalCoins() {
+        return totalCoins;
+    }
+    public void addCoins(int coins)
+    {
+        totalCoins += coins;
     }
 }
