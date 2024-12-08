@@ -4,17 +4,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class OneWayTile {
-    private float x, y, width, height;
-    private Texture texture;
+    private final float x, y, width, height;
+    private final Texture texture;
     private String direction;
     private String allowedDirection;
 
 
-    public OneWayTile(float x, float y, float width, float height, String direction, String allowedDirection) {
+    public OneWayTile(float x, float y, String direction, String allowedDirection) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.width = 100;
+        this.height = 100;
         this.direction = direction;
         this.texture = new Texture("tiles/OneWay" + direction + "-img.png");
         this.allowedDirection = allowedDirection;

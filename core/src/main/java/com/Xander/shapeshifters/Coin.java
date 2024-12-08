@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Coin {
     private boolean collected;
-    private Rectangle bounds;
-    private Texture texture;
+    private final Rectangle bounds;
+    private final Texture texture;
 
     public Coin(float x, float y) {
         bounds = new Rectangle(x, y, 75, 75);
@@ -37,4 +37,3 @@ public class Coin {
         texture.dispose();
     }
 }
-

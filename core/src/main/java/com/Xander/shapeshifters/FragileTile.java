@@ -11,11 +11,11 @@ public class FragileTile {
     private boolean isBroken;
     private boolean wasPlayerOver;
 
-    public FragileTile(float x, float y, float width, float height) {
+    public FragileTile(float x, float y) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        width = 100;
+        height = 100;
         this.intactTexture = new Texture("tiles/FragileTile-img.png");
         this.brokenTexture = new Texture("tiles/FragileTileBroken-img.png");
         this.isBroken = false;

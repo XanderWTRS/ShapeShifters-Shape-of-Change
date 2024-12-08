@@ -4,15 +4,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ConveyorBeltTile {
-    private float x, y, width, height;
-    private float speedX, speedY;
-    private Texture texture;
+    private final float x, y, width, height;
+    private final float speedX, speedY;
+    private final Texture texture;
 
-    public ConveyorBeltTile(float x, float y, float width, float height, float speedX, float speedY, String texturePath) {
+    public ConveyorBeltTile(float x, float y, float speedX, float speedY, String texturePath) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        width = 100;
+        height = 100;
         this.speedX = speedX;
         this.speedY = speedY;
         this.texture = new Texture(texturePath);

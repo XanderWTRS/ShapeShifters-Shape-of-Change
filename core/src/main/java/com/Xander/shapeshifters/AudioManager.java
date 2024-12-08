@@ -22,7 +22,7 @@ public class AudioManager
     }
 
     public void setMusicVolume(float volume) {
-        this.musicVolume = volume;
+        musicVolume = volume;
     }
 
     public static float getSoundVolume() {
@@ -30,7 +30,6 @@ public class AudioManager
     }
 
     public void setSoundVolume(float volume) {
-        this.soundVolume = volume;
+        soundVolume = volume;
     }
 }
-

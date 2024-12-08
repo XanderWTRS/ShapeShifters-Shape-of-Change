@@ -4,14 +4,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class WallTile {
-    private float x, y, width, height;
-    private Texture wallTexture;
+    private final float x, y, width, height;
+    private final Texture wallTexture;
 
-    public WallTile(float x, float y, float width, float height) {
+    public WallTile(float x, float y) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        width = 100;
+        height = 100;
         this.wallTexture = new Texture("tiles/Wall-img.png");
     }
 

@@ -35,8 +35,8 @@ public class SettingsScreen implements Screen
         table.setFillParent(true);
         stage.addActor(table);
 
-        titleFont = generateFont("fonts/TitleFont.ttf", 30);
-        extraTitleFont = generateFont("fonts/TitleFont.ttf", 80);
+        titleFont = generateFont(30);
+        extraTitleFont = generateFont(80);
         Label.LabelStyle titleStyle = new Label.LabelStyle(titleFont, Color.BLACK);
         Label.LabelStyle extraTitleStyle = new Label.LabelStyle(extraTitleFont, Color.BLACK);
 
@@ -95,8 +95,8 @@ public class SettingsScreen implements Screen
         stage.draw();
     }
 
-    private BitmapFont generateFont(String fontPath, int size) {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(fontPath));
+    private BitmapFont generateFont(int size) {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/TitleFont.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;
         BitmapFont font = generator.generateFont(parameter);

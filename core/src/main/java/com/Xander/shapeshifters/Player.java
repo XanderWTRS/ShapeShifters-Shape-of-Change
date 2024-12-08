@@ -11,14 +11,14 @@ import java.util.List;
 
 public class Player
 {
-    private Vector2 position;
+    private final Vector2 position;
     private float width;
     private float height;
     private float speed;
     private ShapeType currentShape;
-    private float dashDistance;
+    private final float dashDistance;
     public boolean canDash;
-    private float dashCooldownTime = 0.2f;
+    private final float dashCooldownTime = 0.2f;
     private float dashCooldownTimer = 0f;
     private Sound dashSound;
     private String currentDirection;

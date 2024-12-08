@@ -20,10 +20,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class GameCompleteScreen implements Screen {
 
     private final MainGame game;
-    private SpriteBatch spriteBatch;
+    private final SpriteBatch spriteBatch;
     private BitmapFont titleFont;
     private BitmapFont coinFont;
-    private int totalCoins;
+    private final int totalCoins;
     private Stage stage;
     private Skin skin;
     private Texture backgroundTexture;
@@ -44,8 +44,8 @@ public class GameCompleteScreen implements Screen {
         endMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/end_menu_theme.mp3"));
         AudioManager.playMusic(endMenuMusic, true);
 
-        titleFont = generateFont("fonts/TitleFont.ttf", 78);
-        coinFont = generateFont("fonts/TitleFont.ttf", 40);
+        titleFont = generateFont(78);
+        coinFont = generateFont(40);
         titleFont.setColor(Color.BLACK);
         coinFont.setColor(Color.BLACK);
 
@@ -82,8 +82,8 @@ public class GameCompleteScreen implements Screen {
         stage.addActor(table);
     }
 
-    private BitmapFont generateFont(String fontPath, int size) {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(fontPath));
+    private BitmapFont generateFont(int size) {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/TitleFont.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;
         BitmapFont font = generator.generateFont(parameter);

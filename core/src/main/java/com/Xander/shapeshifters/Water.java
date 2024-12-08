@@ -5,15 +5,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Water
 {
-    private float x, y, width, height;
-    private Texture texture;
+    private final float x, y, width, height;
+    private final Texture texture;
 
-    public Water(float x, float y, float width, float height, String texturePath) {
+    public Water(float x, float y) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
-        this.texture = new Texture(texturePath);
+        width = 100;
+        height = 100;
+        texture = new Texture("tiles/Water-img.png");
     }
 
     public void render(SpriteBatch spriteBatch) {

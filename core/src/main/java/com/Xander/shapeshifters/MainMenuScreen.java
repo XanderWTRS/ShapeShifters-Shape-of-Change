@@ -21,7 +21,7 @@ public class MainMenuScreen implements Screen {
     private Skin skin;
     private BitmapFont titleFont;
     private BitmapFont normalFont;
-    private BitmapFont textFont;
+
     private Texture backgroundTexture;
     private Music mainMenuMusic;
 
@@ -42,11 +42,9 @@ public class MainMenuScreen implements Screen {
 
         titleFont = generateFont("fonts/TitleFont.ttf", 80);
         normalFont = generateFont("fonts/TitleFont.ttf", 40);
-        textFont = generateFont("fonts/NormalFont.ttf", 32);
 
         Label.LabelStyle titleStyle = new Label.LabelStyle(titleFont, com.badlogic.gdx.graphics.Color.BLACK);
         Label.LabelStyle bodyStyle = new Label.LabelStyle(normalFont, com.badlogic.gdx.graphics.Color.BLACK);
-
 
         Table table = new Table();
         table.setFillParent(true);

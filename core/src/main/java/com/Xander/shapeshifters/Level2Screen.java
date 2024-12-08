@@ -8,16 +8,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import java.util.List;
 import java.util.ArrayList;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.utils.Array;
 
 public class Level2Screen implements Screen {
 
@@ -30,13 +27,13 @@ public class Level2Screen implements Screen {
 
     private ShapeRenderer shapeRenderer;
     private FinishPoint finishPoint;
-    private List<Water> waterBlocks;
-    private List<StickyTile> stickyTiles;
-    private List<ConveyorBeltTile> conveyorBeltTiles;
-    private List<OneWayTile> oneWayTiles;
-    private List<FragileTile> fragileTiles;
-    private  List<WallTile> wallTiles;
-    private List<Coin> coins;
+    private final List<Water> waterBlocks;
+    private final List<StickyTile> stickyTiles;
+    private final List<ConveyorBeltTile> conveyorBeltTiles;
+    private final List<OneWayTile> oneWayTiles;
+    private final List<FragileTile> fragileTiles;
+    private final List<WallTile> wallTiles;
+    private final List<Coin> coins;
     private int coinCount = 0;
     private SpriteBatch spriteBatch;
     private Texture backgroundTexture;
