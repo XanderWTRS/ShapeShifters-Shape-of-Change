@@ -38,11 +38,11 @@ public class Level2Screen implements Screen {
     private  List<WallTile> wallTiles;
     private List<Coin> coins;
     private int coinCount = 0;
-    private Music level1Music;
     private SpriteBatch spriteBatch;
     private Texture backgroundTexture;
     private BitmapFont font;
     private Texture coinTexture;
+    private Music level2Music;
 
     public Level2Screen(MainGame game) {
         this.game = game;
@@ -68,8 +68,8 @@ public class Level2Screen implements Screen {
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        level1Music = Gdx.audio.newMusic(Gdx.files.internal("sounds/level1_theme.mp3"));
-        AudioManager.playMusic(level1Music, true);
+        level2Music = Gdx.audio.newMusic(Gdx.files.internal("sounds/level2_theme.mp3"));
+        AudioManager.playMusic(level2Music, true);
 
         backgroundTexture = new Texture(Gdx.files.internal("tiles/Grass-img.png"));
         backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
@@ -245,10 +245,10 @@ public class Level2Screen implements Screen {
     public void hide() {
         stage.dispose();
         shapeRenderer.dispose();
-        if(level1Music != null)
+        if(level2Music != null)
         {
-            level1Music.stop();
-            level1Music.dispose();
+            level2Music.stop();
+            level2Music.dispose();
         }
     }
 
